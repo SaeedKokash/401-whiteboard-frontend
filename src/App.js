@@ -1,4 +1,6 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Post from './components/Post';
 
 function App() {
   return (
@@ -9,6 +11,9 @@ function App() {
         </p>
         
       </header>
+
+      <Post />
+
     </div>
   );
 }
