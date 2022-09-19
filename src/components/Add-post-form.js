@@ -22,7 +22,7 @@ function AddPostForm(props) {
 
   return (
     <div>
-        <h1>Enter Your Post Items Here!</h1>
+        <h2>Enter Your Post Items Here!</h2>
     <Form onSubmit={handleSubmit}>
     <Stack gap={2} className="col-md-4 mx-auto">
 
