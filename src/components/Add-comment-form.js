@@ -22,7 +22,7 @@ function AddCommentForm(props) {
 
       <Form.Group className="mb-3" id="comment">
         <Form.Label>Write Comment Here</Form.Label>
-        <Form.Control as="textarea" rows={3} placeholder="Enter Comment" id="comment"/>
+        <Form.Control as="textarea" rows={3} placeholder="Enter Comment" name="comment"/>
       </Form.Group>
 
       <Button variant="primary" type="submit">
