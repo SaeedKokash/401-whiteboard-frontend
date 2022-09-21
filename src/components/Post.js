@@ -8,7 +8,7 @@ import cookies from "react-cookies";
 
 function Post() {
   const [posts, setPosts] = useState([]);
-  console.log(posts);
+  // console.log(posts);
 
   const getAllPosts = async () => {
     const allPosts = await axios.get(`${process.env.REACT_APP_HEROKU_URL}/post`, {
@@ -31,6 +31,7 @@ function Post() {
   return (
     <div>
       <AddPostForm getAllPosts={getAllPosts} />
+
       <div className="cards">
       {posts &&
         posts.map((value, idx) => {
@@ -38,11 +39,11 @@ function Post() {
             <div key={idx} >
 
 
-              <Card className="text-center bg-dark text-white" style={{ width: "18rem" }}>
-                <Card.Body>
+              <Card className="eachCard" style={{ width: "18rem" }}> 
+                <Card.Body> 
                   <Card.Title>{value.postTitle}</Card.Title>
                   <Card.Text>{value.postContent}</Card.Text>
-                  <Button variant="primary" onClick={() => handleDelete(value.id)}>Delete Post</Button>
+                  <Button variant="danger" onClick={() => handleDelete(value.id)}>Delete Post</Button>
                 </Card.Body>
                 <AddCommentForm postID={value.id} getAllPosts={getAllPosts} />
               
@@ -51,7 +52,12 @@ function Post() {
                 value.Comments.map((item, idx) => {
                   return (
                     <div key={idx}>
-                      <p>Author: {item.creator} Comment: {item.comment}</p>
+                      <Card className="commentCard" style={{ width: "18rem" }}>
+                        <Card.Body>
+                          <Card.Title className="commentCreator">{item.creator}</Card.Title>
+                          <Card.Text className="comment">{item.comment}</Card.Text>
+                        </Card.Body>
+                      </Card>
                     </div>
                   );
                 })}
@@ -59,10 +65,10 @@ function Post() {
             </div>
           );
         })}
-        
       </div>
     </div>
   );
 }
+
 
 export default Post;

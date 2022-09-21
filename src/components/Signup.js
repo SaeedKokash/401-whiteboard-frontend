@@ -9,8 +9,6 @@ import { useState } from "react";
 export default function Signup() {
 
   const [isPassword, setisPassword] = useState(false);
-  // const [isValid, setisValid] = useState(false);
-
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -44,22 +42,22 @@ export default function Signup() {
 
           <Form.Group className="mb-3" id="title">
             <Form.Label>Username</Form.Label>
-            <Form.Control type="text" placeholder="username" id="userName" autoComplete="username"/>
+            <Form.Control type="text" placeholder="username" id="userName" autoComplete="username" required/>
           </Form.Group>
 
           <Form.Group className="mb-3" id="content">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="text" placeholder="email" id="email" autoComplete="username"/>
+            <Form.Control type="text" placeholder="email" id="email" autoComplete="email" required />
           </Form.Group>
 
           <Form.Group className="mb-3" id="content">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="password" id="password" autoComplete="new-password"/>
+            <Form.Control type="password" placeholder="password" id="password" autoComplete="new-password" required/>
           </Form.Group>
 
           <Form.Group className="mb-3" id="content">
             <Form.Label>Confirm Password</Form.Label>
-            <Form.Control type="password" placeholder="confirm password" id="confirmPassword" autoComplete="new-password"/>
+            <Form.Control type="password" placeholder="confirm password" id="confirmPassword" autoComplete="new-password" required/>
           </Form.Group>
 
           { isPassword &&

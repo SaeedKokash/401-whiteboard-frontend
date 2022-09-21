@@ -14,25 +14,76 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 20vh;
+  background-color: #393E46;
+  min-height: 15vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  font-size: calc(10px + 2vmin);
+  color: #EEEEEE;
+}
+
+.App-footer {
+  background-color: #393E46;
+  min-height: 7vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-size: 18px;
+  color: #EEEEEE;
+  margin-top: 50px;
+  padding: 15px;
+  /* position: fixed; */
+  width: 100%;
+  bottom: 0;
 }
 
-.App-link {
-  color: #61dafb;
+.postForm{
+  margin: 50px;
+  background-color: #00ADB5;
+  padding: 20px;
+  border-radius: 10px;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.postForm label{
+  font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  padding-top: 20px;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 100px;
+  color: #EEEEEE;
+}
+
+.eachCard {
+  background-color: #00ADB5 !important; 
+  border-radius: 10px !important;
+  padding: 20px;
+}
+
+.commentCard {
+  background-color: #00ADB5 !important; 
+  border-radius: 10px !important;
+  margin: 20px;
+  width: 80% !important;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5px !important;
+
+}
+
+.commentCreator, .comment {
+  align-items: left;
+  display: flex;
 }

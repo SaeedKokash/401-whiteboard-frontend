@@ -6,6 +6,8 @@ import Signin from './components/Signin';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import cookies from 'react-cookies';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
 
@@ -33,17 +35,10 @@ function App() {
   return (
     <div className="App">
     <BrowserRouter>
-      <header className="App-header">
-        <p>Welcome to Stress Relief Whiteboard App</p>
-        <button onClick={handleLogout}>Logout</button>   
-      </header>
+
+      <Header handleLogout={handleLogout} isAuth={isAuth}/>
 
       <Routes>
-
-      {/* <Route exact path="/" element={isAuth ? <Post/> : <Navigate to="/signin" /> }/>
-      <Route exact path="/signin" element={isAuth ? <Navigate to="/post" /> : <Signin checkAuth={checkAuth} />} />
-      <Route exact path="/signup" element={isAuth ?<Navigate to="/post" /> : <Signup/> } />
-      <Route exact path="/post" element={isAuth ? <Post/> :  <Navigate to="/signin" />} /> */}
 
       <Route exact path="/" element={isAuth ?       <Post/> : <Signin checkAuth={checkAuth}/>} />
       <Route exact path="/signin" element={isAuth ? <Post/> : <Signin checkAuth={checkAuth} />} />
@@ -51,6 +46,8 @@ function App() {
       <Route exact path="/post" element={isAuth ?   <Post/> : <Signin checkAuth={checkAuth} />} />
 
       </Routes>
+
+      <Footer/>
 
     </BrowserRouter>
     </div>
