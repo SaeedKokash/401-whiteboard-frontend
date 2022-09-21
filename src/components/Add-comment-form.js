@@ -2,15 +2,20 @@ import axios from "axios";
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import cookies from 'react-cookies';
 
 function AddCommentForm(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const userID = cookies.load('userId');
+        // console.log(userID);
+        // console.log(props.postID);
         const newComment = {
             comment: e.target.comment.value,
         };
-        await axios.post(`${process.env.REACT_APP_HEROKU_URL}/comment/${props.postID}`, newComment).then( () => {
+        console.log(newComment) 
+        await axios.post(`${process.env.REACT_APP_HEROKU_URL}/comment/${props.postID}/${userID}`, newComment).then( () => {
             props.getAllPosts();
         });
     }

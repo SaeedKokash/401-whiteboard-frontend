@@ -4,14 +4,18 @@ import AddPostForm from "./Add-post-form";
 import AddCommentForm from "./Add-comment-form";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import cookies from "react-cookies";
 
 function Post() {
   const [posts, setPosts] = useState([]);
+  console.log(posts);
 
   const getAllPosts = async () => {
-    const allPosts = await axios.get(
-      `${process.env.REACT_APP_HEROKU_URL}/post`
-    );
+    const allPosts = await axios.get(`${process.env.REACT_APP_HEROKU_URL}/post`, {
+      headers: {
+        Authorization: `Bearer ${cookies.load('token')}`,
+        },
+        });
     setPosts(allPosts.data.post);
   };
 
@@ -47,7 +51,7 @@ function Post() {
                 value.Comments.map((item, idx) => {
                   return (
                     <div key={idx}>
-                      <p>Comment: {item.comment}</p>
+                      <p>Author: {item.creator} Comment: {item.comment}</p>
                     </div>
                   );
                 })}

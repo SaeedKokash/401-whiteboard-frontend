@@ -6,6 +6,8 @@ import base64 from "base-64";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 import { useState } from "react";
+import cookies from 'react-cookies';
+
 
 export default function Signin(props) {
 
@@ -14,11 +16,11 @@ export default function Signin(props) {
   const handleSignin = async (e) => {
     e.preventDefault();
     const user = {
-      email: e.target.email.value,
+      userName: e.target.userName.value,
       password: e.target.password.value,
     };
 
-    const encoded = base64.encode(`${user.email}:${user.password}`);
+    const encoded = base64.encode(`${user.userName}:${user.password}`);
     await axios
       .post(`${process.env.REACT_APP_HEROKU_URL}/signin`, {},
         {
@@ -28,7 +30,11 @@ export default function Signin(props) {
         }
       )
       .then((res) => {
-        // console.log(res.data) 
+        console.log(res.data.user) 
+        cookies.save('token', res.data.token);
+        cookies.save('userName', res.data.user.username);
+        cookies.save('userId', res.data.user.id);
+        cookies.save('email', res.data.user.email);
         props.checkAuth();
         
     })
@@ -45,12 +51,12 @@ export default function Signin(props) {
       <Form onSubmit={handleSignin}>
         <Stack gap={2} className="col-md-4 mx-auto">
           <Form.Group className="mb-3" id="title">
-            <Form.Label>Email</Form.Label>
+            <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
-              placeholder="email"
-              id="email"
-              autoComplete="email"
+              placeholder="userName"
+              id="userName"
+              autoComplete="userName"
             />
           </Form.Group>
 
