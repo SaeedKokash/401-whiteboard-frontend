@@ -21,19 +21,19 @@ function AddPostForm(props) {
 
 
   return (
-    <div>
+    <div className="postForm">
         <h2>Enter Your Post Items Here!</h2>
     <Form onSubmit={handleSubmit}>
-    <Stack gap={2} className="col-md-4 mx-auto">
+    <Stack gap={3} className="">
 
-      <Form.Group className="mb-3" id="title">
+      <Form.Group id="title">
         <Form.Label>Post Title</Form.Label>
-        <Form.Control type="text" placeholder="Enter Title" id="title"/>
+        <Form.Control type="text" placeholder="Enter Title" id="title" required/>
       </Form.Group>
 
-      <Form.Group className="mb-3" id="content">
+      <Form.Group id="content">
         <Form.Label>Post content</Form.Label>
-        <Form.Control type="text" as="textarea" rows={3} placeholder="Enter Post Contents" id="content"/>
+        <Form.Control type="text" as="textarea" rows={5} placeholder="Enter Post Contents" id="content" required/>
       </Form.Group>
 
       <Button variant="outline-dark" type="submit">

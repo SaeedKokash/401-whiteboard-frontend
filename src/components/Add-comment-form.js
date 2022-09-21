@@ -23,14 +23,14 @@ function AddCommentForm(props) {
 
   return (
 
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} className="commentForm">
 
       <Form.Group className="mb-3" id="comment">
         <Form.Label>Write Comment Here</Form.Label>
-        <Form.Control as="textarea" rows={3} placeholder="Enter Comment" name="comment"/>
+        <Form.Control as="textarea" rows={3} placeholder="Enter Comment" name="comment" required/>
       </Form.Group>
 
-      <Button variant="primary" type="submit">
+      <Button variant="success" type="submit">
         Add Comment
       </Button>
 
