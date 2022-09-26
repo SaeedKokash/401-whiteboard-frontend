@@ -35,7 +35,9 @@ export default function Signin(props) {
         cookies.save('userName', res.data.user.username);
         cookies.save('userId', res.data.user.id);
         cookies.save('email', res.data.user.email);
+        cookies.save('role', res.data.user.role);
         props.checkAuth();
+        window.location.href = '/post'
         
     })
       .catch((error) => 
@@ -54,7 +56,7 @@ export default function Signin(props) {
             <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
-              placeholder="userName"
+              placeholder="username"
               id="userName"
               autoComplete="userName"
             />
