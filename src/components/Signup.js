@@ -12,25 +12,27 @@ export default function Signup() {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    if (e.target.password.value === e.target.confirmPassword.value) {
-      const data = {
-        userName: e.target.userName.value,
-        email: e.target.email.value,
-        password: e.target.password.value,
-      };
-
-      await axios
-        .post(`${process.env.REACT_APP_HEROKU_URL}/signup`, data)
-        .then((res) => {
-          console.log(res)
-          window.location.href = '/signin'; })
-        .catch((error) => console.log(error));
-
-    } else {
-      setisPassword(true)
-      console.log('password dont match')
-    }
+      if (e.target.password.value === e.target.confirmPassword.value) {
+        const data = {
+          userName: e.target.userName.value,
+          email: e.target.email.value,
+          password: e.target.password.value,
+          role: e.target.role.value,
+        };
+        console.log(data)
     
+        await axios
+          .post(`${process.env.REACT_APP_HEROKU_URL}/signup`, data)
+          .then((res) => {
+            console.log(res)
+            window.location.href = '/signin'; })
+          .catch((error) => console.log(error));
+    
+      } else {
+        setisPassword(true)
+        console.log('password dont match')
+      }
+       
   };
 
   return (
@@ -47,7 +49,7 @@ export default function Signup() {
 
           <Form.Group className="mb-3" id="content">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="text" placeholder="email" id="email" autoComplete="email" required />
+            <Form.Control type="email" placeholder="email" id="email" autoComplete="email" required />
           </Form.Group>
 
           <Form.Group className="mb-3" id="content">
@@ -59,6 +61,15 @@ export default function Signup() {
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control type="password" placeholder="confirm password" id="confirmPassword" autoComplete="new-password" required/>
           </Form.Group>
+
+          <Form.Group className="mb-3" id="content">
+            <Form.Label>Select Role</Form.Label>
+            <Form.Select name="role">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </Form.Select>
+            </Form.Group>
+
 
           { isPassword &&
             <Alert key="strong" variant="danger">

@@ -7,7 +7,10 @@ export default function Footer() {
 
     return (
             <div className='App-footer'>
+
+                { userName &&
                 <p>Welcome {userName}</p>
+                }
                 <p>Stress Relief Whiteboard App Created by &copy;Saeed Kokash</p>
             </div>
 

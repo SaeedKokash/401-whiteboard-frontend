@@ -29,7 +29,9 @@ function App() {
     cookies.remove('userName');
     cookies.remove('userId');
     cookies.remove('email');
+    cookies.remove('role');
     setIsAuth(false);
+    window.location.href = '/signin'
   }
 
   return (
@@ -40,10 +42,10 @@ function App() {
 
       <Routes>
 
-      <Route exact path="/" element={isAuth ?       <Post/> : <Signin checkAuth={checkAuth}/>} />
-      <Route exact path="/signin" element={isAuth ? <Post/> : <Signin checkAuth={checkAuth} />} />
-      <Route exact path="/signup" element={isAuth ? <Post/> : <Signup/> } />
-      <Route exact path="/post" element={isAuth ?   <Post/> : <Signin checkAuth={checkAuth} />} />
+      <Route exact path="/" element={isAuth ?       <Post/> : <Signin checkAuth={checkAuth}/>}></Route>
+      <Route exact path="/signin" element={isAuth ? <Post/> : <Signin checkAuth={checkAuth} />}></Route>
+      <Route exact path="/signup" element={isAuth ? <Post/> : <Signup/> }></Route>
+      <Route exact path="/post" element={isAuth ?   <Post/> : <Signin checkAuth={checkAuth} />}></Route>
 
       </Routes>
 
