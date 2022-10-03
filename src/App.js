@@ -4,41 +4,34 @@ import Post from './components/Post';
 import Signup from './components/Signup';
 import Signin from './components/Signin';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import cookies from 'react-cookies';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
+import AuthContextProvider from './context/AuthContext';
+import { useAuth } from './context/AuthContext';
+
+
+
 function App() {
 
-  let [isAuth, setIsAuth] = useState(false);
-
-  const checkAuth = () => {
-    setIsAuth(true);
-  }
+  const { isAuth, setIsAuth, checkAuth } = useAuth();
 
   useEffect(() => {
-    const token = cookies.load('token');
-    if(token) {
-      setIsAuth(true)
+    const token = cookies.load("token");
+    if (token) {
+      setIsAuth(true);
     }
-  }, []);
-
-  const handleLogout = () => {
-    cookies.remove('token');
-    cookies.remove('userName');
-    cookies.remove('userId');
-    cookies.remove('email');
-    cookies.remove('role');
-    setIsAuth(false);
-    window.location.href = '/signin'
-  }
+  });
 
   return (
+    <AuthContextProvider>
+      
     <div className="App">
     <BrowserRouter>
 
-      <Header handleLogout={handleLogout} isAuth={isAuth}/>
+      <Header />
 
       <Routes>
 
@@ -53,6 +46,7 @@ function App() {
 
     </BrowserRouter>
     </div>
+    </AuthContextProvider>
   );
 }
 

@@ -8,8 +8,14 @@ import Alert from "react-bootstrap/Alert";
 import { useState } from "react";
 import cookies from 'react-cookies';
 
+import { useAuth } from '../context/AuthContext';
 
-export default function Signin(props) {
+
+
+export default function Signin() {
+
+  const { checkAuth } = useAuth();
+
 
   const [isNotLogged, setIsNotLogged] = useState(false);
 
@@ -36,7 +42,7 @@ export default function Signin(props) {
         cookies.save('userId', res.data.user.id);
         cookies.save('email', res.data.user.email);
         cookies.save('role', res.data.user.role);
-        props.checkAuth();
+        checkAuth();
         window.location.href = '/post'
         
     })
