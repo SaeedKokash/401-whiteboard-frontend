@@ -11,14 +11,13 @@ function EditModal(props) {
 
     const handleEdit = async (e, id) => {
         e.preventDefault();
-
-        // this is the post id
-        // console.log(id) 
-        
         const updatedPost = {
           postTitle: e.target.editTitle.value,
           postContent: e.target.editContent.value,
+          userID: cookies.load('userId'),
+          creator: cookies.load('userName')
         };
+
         console.log(updatedPost);
         console.log(id);
         await axios.put(`${process.env.REACT_APP_HEROKU_URL}/post/${id}`, updatedPost, {

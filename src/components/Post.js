@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import AddPostForm from "./Add-post-form";
 import AddCommentForm from "./Add-comment-form";
 import Button from "react-bootstrap/Button";
@@ -8,58 +7,31 @@ import cookies from "react-cookies";
 import Alert from "react-bootstrap/Alert";
 import EditModal from "./EditModal";
 
+import { usePost } from "../context/PostContext";
+
 function Post() {
-  const [posts, setPosts] = useState([]);
-  const [alert, setAlert] = useState(false);
-
-  const getAllPosts = async () => {
-    const allPosts = await axios.get(
-      `${process.env.REACT_APP_HEROKU_URL}/post`, {
-        headers: {
-          Authorization: `Bearer ${cookies.load("token")}`,
-        },
-      }
-    );
-    setPosts(allPosts.data.post);
-  };
-
-  const handlePostDelete = async (id) => {
-    await axios.delete(`${process.env.REACT_APP_HEROKU_URL}/post/${id}`, {
-      headers: {
-        Authorization: `Bearer ${cookies.load("token")}`,
-      },
-    });
-    getAllPosts();
-    setAlert(true);
-  };
-
-  const handleCommentDelete = async (id) => {
-    await axios.delete(`${process.env.REACT_APP_HEROKU_URL}/comment/${id}`, {
-      headers: {
-        Authorization: `Bearer ${cookies.load("token")}`,
-      },
-    });
-    getAllPosts();
-  };
-
-
+  
+  const { deleteAlert, setDeleteAlert, posts, getAllPosts, handlePostDelete, handleCommentDelete } = usePost();
+  
   useEffect(() => {
     getAllPosts();
-  }, []);
+  },[]);
 
   return (
     <div>
-      {alert && (
-        <Alert key="strong" variant="success" onClose={() => setAlert(false)} dismissible>
+      {deleteAlert && (
+        <Alert key="strong" variant="success" onClose={() => setDeleteAlert(false)} dismissible>
           Post has been deleted successfully!
         </Alert>
       )}
 
-      <AddPostForm getAllPosts={getAllPosts} />
+      <AddPostForm />
 
       <div className="cards">
         {posts &&
           posts.map((value, idx) => {
+            console.log(value.userID)
+            // console.log(cookies.load("userId"))
             return (
               <div key={idx}>
 
@@ -68,7 +40,9 @@ function Post() {
                     <Card.Title>{value.postTitle}</Card.Title>
                     <Card.Text>{value.postContent}</Card.Text>
 
-                    {cookies.load("role") === "admin" ? (
+                    {/* if the role is admin or the user is the owner  */}
+                    {cookies.load("role") === "admin" || (cookies.load('userId') == value.userID) ? (
+                      
                       <div>
                         <EditModal post={value} getAllPosts={getAllPosts}/>
                         <Button variant="danger" onClick={() => handlePostDelete(value.id)}>Delete Post</Button>

@@ -4,13 +4,9 @@ import cookies from 'react-cookies';
 
 import { useAuth } from '../context/AuthContext';
 
-
-
-
 export default function Header() {
 
   const { isAuth, handleLogout } = useAuth();
-
 
     const userName = cookies.load('userName');
 
