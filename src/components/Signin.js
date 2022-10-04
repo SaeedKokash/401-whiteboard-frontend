@@ -2,54 +2,13 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Stack } from "react-bootstrap";
-import base64 from "base-64";
-import axios from "axios";
 import Alert from "react-bootstrap/Alert";
-import { useState } from "react";
-import cookies from 'react-cookies';
 
 import { useAuth } from '../context/AuthContext';
 
-
-
 export default function Signin() {
 
-  const { checkAuth } = useAuth();
-
-
-  const [isNotLogged, setIsNotLogged] = useState(false);
-
-  const handleSignin = async (e) => {
-    e.preventDefault();
-    const user = {
-      userName: e.target.userName.value,
-      password: e.target.password.value,
-    };
-
-    const encoded = base64.encode(`${user.userName}:${user.password}`);
-    await axios
-      .post(`${process.env.REACT_APP_HEROKU_URL}/signin`, {},
-        {
-          headers: {
-            Authorization: `Basic ${encoded}`,
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res.data.user) 
-        cookies.save('token', res.data.token);
-        cookies.save('userName', res.data.user.username);
-        cookies.save('userId', res.data.user.id);
-        cookies.save('email', res.data.user.email);
-        cookies.save('role', res.data.user.role);
-        checkAuth();
-        window.location.href = '/post'
-        
-    })
-      .catch((error) => 
-      setIsNotLogged(true)
-    );
-  };
+  const { isNotLogged, handleSignin } = useAuth();
 
   return (
     <div>

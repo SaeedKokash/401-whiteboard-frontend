@@ -1,34 +1,15 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Stack } from "react-bootstrap";
-import cookies from "react-cookies";
 import Alert from "react-bootstrap/Alert";
 
+import { usePost } from "../context/PostContext";
 
-function AddPostForm(props) {
+function AddPostForm() {
 
-  const [alert, setAlert] = useState(false);
-
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const newPost = {
-            postTitle: e.target.title.value,
-            postContent: e.target.content.value
-        };
-        await axios.post(`${process.env.REACT_APP_HEROKU_URL}/post`, newPost, {
-            headers: {
-              Authorization: `Bearer ${cookies.load('token')}`,
-            }
-        }).then( () => {
-            props.getAllPosts();
-            setAlert(true);
-        });
-    }
-
-
+  const { addAlert, setAddAlert, handleSubmit } = usePost();
+    
   return (
     <div className="postForm">
 
@@ -46,8 +27,8 @@ function AddPostForm(props) {
         <Form.Control type="text" as="textarea" rows={5} placeholder="Enter Post Contents" id="content" required />
       </Form.Group>
 
-      {alert && (
-          <Alert key="strong" variant='success' onClose={() => setAlert(false)} dismissible>
+      {addAlert && (
+          <Alert key="strong" variant='success' onClose={() => setAddAlert(false)} dismissible>
            Post has been Added successfully!
           </Alert>
                   )}

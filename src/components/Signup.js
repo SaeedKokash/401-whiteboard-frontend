@@ -1,39 +1,14 @@
 import React from "react";
-import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Stack } from "react-bootstrap";
 import Alert from "react-bootstrap/Alert";
-import { useState } from "react";
+
+import { useAuth } from '../context/AuthContext';
 
 export default function Signup() {
 
-  const [isPassword, setisPassword] = useState(false);
-
-  const handleSignup = async (e) => {
-    e.preventDefault();
-      if (e.target.password.value === e.target.confirmPassword.value) {
-        const data = {
-          userName: e.target.userName.value,
-          email: e.target.email.value,
-          password: e.target.password.value,
-          role: e.target.role.value,
-        };
-        console.log(data)
-    
-        await axios
-          .post(`${process.env.REACT_APP_HEROKU_URL}/signup`, data)
-          .then((res) => {
-            console.log(res)
-            window.location.href = '/signin'; })
-          .catch((error) => console.log(error));
-    
-      } else {
-        setisPassword(true)
-        console.log('password dont match')
-      }
-       
-  };
+  const { isPassword, handleSignup } = useAuth();
 
   return (
     <div>

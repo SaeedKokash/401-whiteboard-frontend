@@ -9,8 +9,6 @@ function AddCommentForm(props) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const userID = cookies.load('userId');
-        // console.log(userID);
-        // console.log(props.postID);
         const newComment = {
             comment: e.target.comment.value,
         };
