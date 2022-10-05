@@ -11,7 +11,7 @@ export default function Signup() {
   const { isPassword, handleSignup } = useAuth();
 
   return (
-    <div>
+    <div className="signup">
       <h2>Sign Up</h2>
 
       <Form onSubmit={handleSignup}>

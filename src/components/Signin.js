@@ -11,7 +11,7 @@ export default function Signin() {
   const { isNotLogged, handleSignin } = useAuth();
 
   return (
-    <div>
+    <div className="signin">
             
       <h2>Sign In</h2>
 

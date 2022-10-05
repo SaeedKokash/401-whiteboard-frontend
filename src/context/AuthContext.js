@@ -13,9 +13,17 @@ const AuthContextProvider = (props) => {
   const [isNotLogged, setIsNotLogged] = useState(false);
   const [isPassword, setisPassword] = useState(false);
 
+  const user = {
+    username: cookies.load('userName'),
+    role: cookies.load('role'),
+    email: cookies.load('email'),
+    token: cookies.load('token'),
+    userId: cookies.load('userId'),
+  };
+
   const checkAuth = async () => {
-    const token = cookies.load("token");
-    if (token) {
+    // const token = cookies.load("token");
+    if (user.token) {
       setIsAuth(true);
     }
   };
@@ -83,7 +91,7 @@ const AuthContextProvider = (props) => {
     window.location.href = "/signin";
   };
 
-  const value={ checkAuth, isAuth, setIsAuth, handleLogout, isNotLogged, handleSignin, isPassword, handleSignup };
+  const value={ user, checkAuth, isAuth, setIsAuth, handleLogout, isNotLogged, handleSignin, isPassword, handleSignup };
 
   return (
     <AuthContext.Provider value={value}>
