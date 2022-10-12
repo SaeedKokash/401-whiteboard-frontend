@@ -12,9 +12,9 @@ import { useAuth } from "../context/AuthContext";
 function Post() {
   
   const { deleteAlert, setDeleteAlert, posts, getAllPosts, handlePostDelete, handleCommentDelete } = usePost();
-  const { user } = useAuth();
+  const { userData } = useAuth();
 
-  const userName = user.username.charAt(0).toUpperCase() + user.username.slice(1)
+  const userName = userData.user.username.charAt(0).toUpperCase() + userData.user.username.slice(1)
   
   useEffect(() => {
     getAllPosts();
@@ -41,8 +41,6 @@ function Post() {
       <div className="body">
         {posts &&
           posts.map((value, idx) => {
-            // console.log(value)
-            // console.log(cookies.load("userId"))
             return (
               <div key={idx}>
 
@@ -53,7 +51,7 @@ function Post() {
                     <Card.Text>{value.postContent}</Card.Text>
 
                     {/* if the role is admin or the user is the owner  */}
-                    {user.role === "admin" || (user.userId == value.userID) ? (
+                    {userData.user.role === "admin" || (userData.user.userId == value.userID) ? (
                       
                       <div className="postBtn">
                         <EditModal post={value} getAllPosts={getAllPosts}/>
@@ -67,7 +65,6 @@ function Post() {
 
                   {value.Comments &&
                     value.Comments.map((item, idx) => {
-                      // console.log(item)
                       return (
                         <div key={idx}>
                           <Card className="commentCard" style={{ width: "18rem" }}>
@@ -75,7 +72,7 @@ function Post() {
                               <Card.Title className="commentCreator">{item.creator.charAt(0).toUpperCase() + item.creator.slice(1)}</Card.Title>
                               <Card.Text className="comment">{item.comment}</Card.Text>
                               
-                              {user.role === "admin" ? (
+                              {userData.user.role === "admin" ? (
                                  <Button variant="danger" onClick={() => handleCommentDelete(item.id)}>Delete Comment</Button>
                               ) : null}
 

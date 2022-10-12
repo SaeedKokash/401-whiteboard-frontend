@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import axios from "axios";
-import cookies from "react-cookies";
+
+import { useAuth } from '../context/AuthContext';
 
 export const PostContext = createContext();
 
@@ -11,12 +12,14 @@ const PostContextProvider = (props) => {
   const [addAlert, setAddAlert] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
 
+  const { userData } = useAuth();
+
 
   const getAllPosts = async () => {
     const allPosts = await axios.get(
       `${process.env.REACT_APP_HEROKU_URL}/post`, {
         headers: {
-          Authorization: `Bearer ${cookies.load("token")}`,
+          Authorization: `Bearer ${userData.user.token}`,
         },
       }
     );
@@ -24,12 +27,10 @@ const PostContextProvider = (props) => {
   };
 
   const handlePostDelete = async (id) => {
-    const userID = cookies.load('userId');
-
-    console.log(userID);
+    const userID = userData.user.userId;
     await axios.delete(`${process.env.REACT_APP_HEROKU_URL}/post/${id}/${userID}`, {
       headers: {
-        Authorization: `Bearer ${cookies.load("token")}`,
+        Authorization: `Bearer ${userData.user.token}`,
       },
     });
     getAllPosts();
@@ -39,7 +40,7 @@ const PostContextProvider = (props) => {
   const handleCommentDelete = async (id) => {
     await axios.delete(`${process.env.REACT_APP_HEROKU_URL}/comment/${id}`, {
       headers: {
-        Authorization: `Bearer ${cookies.load("token")}`,
+        Authorization: `Bearer ${userData.user.token}`,
       },
     });
     getAllPosts();
@@ -50,12 +51,12 @@ const PostContextProvider = (props) => {
     const newPost = {
         postTitle: e.target.title.value,
         postContent: e.target.content.value,
-        userID: cookies.load('userId'),
-        creator: cookies.load('userName')
+        userID: userData.user.userId,
+        creator: userData.user.username
     };
     await axios.post(`${process.env.REACT_APP_HEROKU_URL}/post`, newPost, {
         headers: {
-          Authorization: `Bearer ${cookies.load('token')}`,
+          Authorization: `Bearer ${userData.user.token}`,
         }
     }).then( () => {
         getAllPosts();

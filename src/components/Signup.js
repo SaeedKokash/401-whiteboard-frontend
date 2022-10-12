@@ -8,7 +8,7 @@ import { useAuth } from '../context/AuthContext';
 
 export default function Signup() {
 
-  const { isPassword, handleSignup } = useAuth();
+  const { userData, handleSignup } = useAuth();
 
   return (
     <div className="signup">
@@ -46,7 +46,7 @@ export default function Signup() {
             </Form.Group>
 
 
-          { isPassword &&
+          { userData.isPassword &&
             <Alert key="strong" variant="danger">
             The password entered does not match! Please try again.
             </Alert>}
