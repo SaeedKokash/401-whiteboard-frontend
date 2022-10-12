@@ -4,7 +4,6 @@ import Post from './components/Post';
 import Signup from './components/Signup';
 import Signin from './components/Signin';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
@@ -12,11 +11,7 @@ import { useAuth } from './context/AuthContext';
 
 function App() {
 
-  const { isAuth, checkAuth } = useAuth();
-
-  useEffect(() => {
-    checkAuth();
-  });
+  const { userData } = useAuth();
 
   return (
     <div className="App">
@@ -25,10 +20,10 @@ function App() {
       <Header />
 
       <Routes>
-        <Route exact path="/" element={isAuth ?       <Post/> : <Signin />}></Route>
-        <Route exact path="/signin" element={isAuth ? <Post/> : <Signin />}></Route>
-        <Route exact path="/signup" element={isAuth ? <Post/> : <Signup />}></Route>
-        <Route exact path="/post" element={isAuth ?   <Post/> : <Signin />}></Route>
+        <Route exact path="/" element={userData.isAuth ?       <Post/> : <Signin />}></Route>
+        <Route exact path="/signin" element={userData.isAuth ? <Post/> : <Signin />}></Route>
+        <Route exact path="/signup" element={userData.isAuth ? <Post/> : <Signup />}></Route>
+        <Route exact path="/post" element={userData.isAuth ?   <Post/> : <Signin />}></Route>
       </Routes>
 
       <Footer/>

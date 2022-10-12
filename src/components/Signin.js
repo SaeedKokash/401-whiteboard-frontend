@@ -8,7 +8,7 @@ import { useAuth } from '../context/AuthContext';
 
 export default function Signin() {
 
-  const { isNotLogged, handleSignin } = useAuth();
+  const { userData, handleSignin } = useAuth();
 
   return (
     <div className="signin">
@@ -37,7 +37,7 @@ export default function Signin() {
             />
           </Form.Group>
 
-          {isNotLogged && (
+          {userData.isNotLogged && (
               <Alert key="strong" variant="danger">
                 You Are Not Authorized
               </Alert>
