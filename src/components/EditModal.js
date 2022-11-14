@@ -1,16 +1,34 @@
-import React, { useState } from "react";
-import { Modal, Button, Form} from "react-bootstrap";
+import React from "react";
+import { Form } from "react-bootstrap";
 import axios from "axios";
 import { useAuth } from '../context/AuthContext';
+
+import { FaEdit } from "react-icons/fa";
+import {
+  Button,
+  VStack,
+  Modal,
+  useDisclosure,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  FormControl,
+  FormLabel,
+  Input,
+  Textarea,
+  useToast,
+} from '@chakra-ui/react'
 
 
 function EditModal(props) {
 
     const { userData } = useAuth();
 
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const toast = useToast();
 
     const handleEdit = async (e, id) => {
         e.preventDefault();
@@ -28,39 +46,50 @@ function EditModal(props) {
           }
         );
         props.getAllPosts();
-        handleClose();
+        onClose();
+        toast({
+          title: 'Post has been Edited successfully!',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
       };
     
         return (
-            <div>
-                <Button variant="primary" onClick={handleShow}>Edit Post</Button> 
+            <VStack>
+                <Button leftIcon={<FaEdit />} colorScheme="blue" onClick={onOpen}>Edit Post</Button> 
 
-                <Modal show={show} onHide={handleClose} >
-                          <Modal.Header closeButton>
-                            <Modal.Title>Edit Post</Modal.Title>
-                          </Modal.Header>
+                <Modal isOpen={isOpen} onClose={onClose}>
+                  <ModalOverlay />
+                  <ModalContent>
+                    <ModalHeader>Edit Post</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
 
-                          <Modal.Body >
-                            <Form onSubmit={(e) => handleEdit(e, props.post.id)}>
-                              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1" >
-                                <Form.Label>Post Title</Form.Label>
-                                <Form.Control type="text" autoFocus defaultValue={props.post.postTitle} name="editTitle" required/>
-                              </Form.Group>
+                        <Form onSubmit={(e) => handleEdit(e, props.post.id)}>
 
-                              <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label>Post Content</Form.Label>
-                                <Form.Control as="textarea" rows={5} defaultValue={props.post.postContent} name="editContent" required/>
-                              </Form.Group>
+                          <FormControl pb="2em" isRequired >
+                            <FormLabel requiredIndicator >Post Title</FormLabel>
+                            <Input defaultValue={props.post.postTitle} name="editTitle" />
+                          </FormControl>
 
-                              <Modal.Footer>
-                                <Button variant="secondary" onClick={handleClose}>Close</Button>
-                                <Button variant="primary" type="submit" >Save Changes</Button>
-                              </Modal.Footer>
-                            </Form>
-                            
-                          </Modal.Body>
-                  </Modal>
-            </div>
+                          <FormControl pb="2em" isRequired>
+                            <FormLabel requiredIndicator >Post Content</FormLabel>
+                            <Textarea rows={5} defaultValue={props.post.postContent} name="editContent" />
+                          </FormControl>
+
+                          <ModalFooter>
+                            <Button colorScheme='blue' type="submit">Save Changes</Button>
+                            <Button variant='ghost' mr={3} onClick={onClose}>Close</Button>
+                          </ModalFooter>
+
+                        </Form>
+
+                    </ModalBody>
+                  </ModalContent>
+                </Modal>
+
+            </VStack>
         )
 
 }

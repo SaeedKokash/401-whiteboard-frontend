@@ -1,4 +1,4 @@
-import './App.css';
+// import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Post from './components/Post';
 import Signup from './components/Signup';
@@ -9,12 +9,12 @@ import Footer from './components/Footer';
 
 import { useAuth } from './context/AuthContext';
 
+
 function App() {
 
   const { userData } = useAuth();
 
   return (
-    <div className="App">
     <BrowserRouter>
 
       <Header />
@@ -29,7 +29,6 @@ function App() {
       <Footer/>
 
     </BrowserRouter>
-    </div>
   );
 }
 

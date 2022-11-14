@@ -3,6 +3,7 @@ import base64 from "base-64";
 import { signUp, login, logout } from "../actions/authActions";
 import { dataState } from "../config/initials";
 import { authReducer } from "../reducers/authReducer";
+import { useToast } from "@chakra-ui/react";
 
 export const AuthContext = createContext();
 
@@ -11,6 +12,8 @@ export const useAuth = () => useContext(AuthContext);
 const AuthContextProvider = (props) => {
 
   const [ userData, dispatch ] = useReducer( authReducer, dataState);
+
+  const toast = useToast();
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -24,6 +27,13 @@ const AuthContextProvider = (props) => {
         
         signUp( dispatch, data );
         console.log(userData);
+        toast({
+          title: 'Account created.',
+          description: "We've created your account for you.",
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
         
       } else {
         signUp( dispatch, { error: 'password dont match' } );
