@@ -1,47 +1,52 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Stack } from "react-bootstrap";
-import Alert from "react-bootstrap/Alert";
 
 import { usePost } from "../context/PostContext";
 
+import {
+  Button,
+  VStack,
+  Heading,
+  FormControl,
+  FormLabel,
+  Input,
+  Textarea,
+} from "@chakra-ui/react";
+
 function AddPostForm() {
+  const { handleSubmit } = usePost();
 
-  const { addAlert, setAddAlert, handleSubmit } = usePost();
-    
   return (
-    <div className="postForm">
-      <h2>Enter Your Post Items Here!</h2>
-      <Form onSubmit={handleSubmit}>
-      <Stack gap={3} className="">
+    <VStack
+      borderColor="blue.500"
+      borderRadius="lg"
+      borderWidth="2px"
+      textAlign="center"
+      p="5em"
+      m="2em"
+      w={{ base: "90vw", sm: "80vw", lg: "50vw", xl: "40vw" }}
+      alignItems="stretch"
+      spacing={50}
+      boxShadow="lg"
+    >
+      <Heading size="xl" noOfLines={1}>
+        Enter Your Post Items Here!
+      </Heading>
 
-        <Form.Group id="title">
-          <Form.Label>Post Title</Form.Label>
-          <Form.Control type="text" placeholder="Enter Title" id="title" required/>
-        </Form.Group>
+      <Form onSubmit={handleSubmit} >
+        <FormControl pb="2em" borderColor="blue.500" isRequired>
+          <FormLabel requiredIndicator>Post Title</FormLabel>
+          <Input type="text" placeholder="Enter Title" id="title" />
+        </FormControl>
 
-        <Form.Group id="content">
-          <Form.Label>Post content</Form.Label>
-          <Form.Control type="text" as="textarea" rows={5} placeholder="Enter Post Contents" id="content" required />
-        </Form.Group>
+        <FormControl pb="2em" borderColor="blue.500" isRequired>
+          <FormLabel requiredIndicator>Post content</FormLabel>
+          <Textarea rows={5} placeholder="Enter Post Contents" id="content" />
+        </FormControl>
 
-        {addAlert && (
-            <Alert key="strong" variant='success' onClose={() => setAddAlert(false)} dismissible>
-            Post has been Added successfully!
-            </Alert>
-                    )}
-
-        <Button variant="outline-dark" type="submit">
-          Submit
-        </Button>
-        </Stack>
-      
+        <Button colorScheme="blue" type="submit">Submit</Button>
       </Form>
-
-    
-        
-    </div>
+    </VStack>
   );
 }
 

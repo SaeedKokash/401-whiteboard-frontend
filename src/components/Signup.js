@@ -1,64 +1,99 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Stack } from "react-bootstrap";
-import Alert from "react-bootstrap/Alert";
 
 import { useAuth } from '../context/AuthContext';
+
+import {
+  VStack,
+  Text,
+  Heading,
+  Alert,
+  AlertIcon,
+  Link,
+  FormControl,
+  FormLabel,
+  Select,
+  FormHelperText,
+  Input,
+  Button,
+  Flex,
+} from "@chakra-ui/react";
 
 export default function Signup() {
 
   const { userData, handleSignup } = useAuth();
 
   return (
-    <div className="signup">
-      <h2>Sign Up</h2>
+    <Flex
+      direction={{ base: "column", md: "row" }}
+      justify="center"
+      align="center"
+      w="100%"
+      h="100vh"
+    >
 
-      <Form onSubmit={handleSignup}>
-        <Stack gap={2} className="col-md-4 mx-auto">
+    <VStack 
+        borderColor="blue.500"
+        borderRadius="lg"
+        borderWidth="2px"
+        textAlign="center"
+        p="5em"
+        m="2em"
+        w={{base: '90vw', sm:'80vw', lg:'50vw', xl:'40vw'}}
+        alignItems='stretch'
+        spacing={50}
+        mb="5em"
+        >
 
-          <Form.Group className="mb-3" id="title">
-            <Form.Label>Username</Form.Label>
-            <Form.Control type="text" placeholder="username" id="userName" autoComplete="username" required/>
-          </Form.Group>
+        <Heading>Sign Up</Heading>
 
-          <Form.Group className="mb-3" id="content">
-            <Form.Label>Email</Form.Label>
-            <Form.Control type="email" placeholder="email" id="email" autoComplete="email" required />
-          </Form.Group>
+        <Form onSubmit={handleSignup}>
 
-          <Form.Group className="mb-3" id="content">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="password" id="password" autoComplete="new-password" required/>
-          </Form.Group>
+            <FormControl pb="2em" borderColor="blue.500" isRequired>
+            <FormLabel>Username</FormLabel>
+            <Input type="text" placeholder="username" id="userName" autoComplete="userName" />
+            <FormHelperText textAlign="left">Choose a unique username.</FormHelperText>
+            </FormControl>
 
-          <Form.Group className="mb-3" id="content">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control type="password" placeholder="confirm password" id="confirmPassword" autoComplete="new-password" required/>
-          </Form.Group>
+            <FormControl  pb="2em" borderColor="blue.500" isRequired>
+            <FormLabel>Email</FormLabel>
+            <Input type="email" placeholder="email" id="email" autoComplete="email" />
+            <FormHelperText textAlign="left">We'll never share your email.</FormHelperText>
+            </FormControl>
 
-          <Form.Group className="mb-3" id="content">
-            <Form.Label>Select Role</Form.Label>
-            <Form.Select name="role">
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-            </Form.Select>
-            </Form.Group>
+            <FormControl pb="2em" borderColor="blue.500" isRequired>
+            <FormLabel>Password</FormLabel>
+            <Input type="password" placeholder="password" id="password" autoComplete="new-password" />
+            </FormControl>
 
+            <FormControl pb="2em" borderColor="blue.500" isRequired>
+            <FormLabel>Confirm Password</FormLabel>
+            <Input type="password" placeholder="confirm password" id="confirmPassword" autoComplete="new-password" />
+            </FormControl>
 
-          { userData.isPassword &&
-            <Alert key="strong" variant="danger">
-            The password entered does not match! Please try again.
-            </Alert>}
+            <FormControl pb="2em" borderColor="blue.500">
+              <FormLabel>Select Role</FormLabel>
+              <Select name="role">
+                  <option value="user">User</option>
+                  <option value="admin">Admin</option>
+              </Select>
+            </FormControl>
 
-          <Button variant="outline-dark" type="submit">
-            Sign Up
-          </Button>
+            { userData.isPassword &&
+              <Alert status='error' variant='left-accent' mb="1em">
+                <AlertIcon />
+                The password entered does not match! Please try again.
+              </Alert>}
 
-          <p>Already Registered? <a href="/signin">Sign in</a></p>
-          
-        </Stack>
-      </Form>
-    </div>
+            <Button colorScheme="blue" type="submit" mb="1rem">
+              Sign Up
+            </Button>
+
+            <Text>Already Registered? <Link color='blue.500' href="/signin">Sign in</Link></Text>
+            
+        </Form>
+      </VStack>
+    </Flex>
+
   );
 }

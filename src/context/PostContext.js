@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import axios from "axios";
+import { useToast } from "@chakra-ui/react";
 
 import { useAuth } from '../context/AuthContext';
 
@@ -14,6 +15,7 @@ const PostContextProvider = (props) => {
 
   const { userData } = useAuth();
 
+  const toast = useToast();
 
   const getAllPosts = async () => {
     const allPosts = await axios.get(
@@ -35,6 +37,12 @@ const PostContextProvider = (props) => {
     });
     getAllPosts();
     setDeleteAlert(true);
+    toast({
+      title: 'Post has been deleted successfully!',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   const handleCommentDelete = async (id) => {
@@ -44,6 +52,12 @@ const PostContextProvider = (props) => {
       },
     });
     getAllPosts();
+    toast({
+      title: 'Comment has been deleted successfully!',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -61,6 +75,13 @@ const PostContextProvider = (props) => {
     }).then( () => {
         getAllPosts();
         setAddAlert(true);
+        e.target.reset();
+        toast({
+          title: 'Post has been added successfully!',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
     });
 }
 
