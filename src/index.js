@@ -9,13 +9,14 @@ import PostContextProvider from "./context/PostContext";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 
 import theme from "./theme";
+import { myTheme } from "./theme";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 
 root.render(
   <React.StrictMode>
-    <ChakraProvider>
+    <ChakraProvider theme={ myTheme }>
       <ColorModeScript initialColorMode={theme.config.initialColorMode}  />
         <AuthContextProvider>
           <PostContextProvider>

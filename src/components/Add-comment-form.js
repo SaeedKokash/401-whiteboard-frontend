@@ -51,7 +51,7 @@ function AddCommentForm(props) {
           <Textarea rows={3} placeholder="Enter Comment" name="comment" />
         </FormControl>
 
-      <Button colorScheme="green" type="submit" alignSelf="stretch">
+      <Button variant="primary" type="submit" alignSelf="stretch">
         Add Comment
       </Button>
 

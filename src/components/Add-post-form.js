@@ -18,10 +18,11 @@ function AddPostForm() {
 
   return (
     <VStack
+      // bgColor="gray.100"
       borderColor="blue.500"
       borderRadius="lg"
-      borderWidth="2px"
-      textAlign="center"
+      borderWidth="5px"
+      textAlign="left"
       p="5em"
       m="2em"
       w={{ base: "90vw", sm: "80vw", lg: "50vw", xl: "40vw" }}
@@ -30,7 +31,7 @@ function AddPostForm() {
       boxShadow="lg"
     >
       <Heading size="xl" noOfLines={1}>
-        Enter Your Post Items Here!
+        Share your joke with us!
       </Heading>
 
       <Form onSubmit={handleSubmit} >
