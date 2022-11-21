@@ -11,6 +11,9 @@ import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import theme from "./theme";
 import { myTheme } from "./theme";
 
+import { Provider } from "react-redux";
+import { store } from "./app/store";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 
@@ -18,11 +21,13 @@ root.render(
   <React.StrictMode>
     <ChakraProvider theme={ myTheme }>
       <ColorModeScript initialColorMode={theme.config.initialColorMode}  />
-        <AuthContextProvider>
-          <PostContextProvider>
-            <App />
-          </PostContextProvider>
-        </AuthContextProvider>
+        <Provider store={store}>
+          <AuthContextProvider>
+            <PostContextProvider>
+              <App />
+            </PostContextProvider>
+          </AuthContextProvider>
+        </Provider>
     </ChakraProvider>
   </React.StrictMode>
 );
