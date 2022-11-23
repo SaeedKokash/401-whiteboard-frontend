@@ -1,63 +1,114 @@
 import axios from "axios";
-import { actionType } from "../config/constant";
+// import { actionType } from "../config/constant";
 
-export const signUp = ( dispatch, payload ) => {
+// import { useToast } from "@chakra-ui/react";
+
+import {
+  requestLogin,
+  loginSuccess,
+  loginFailure,
+  logoutSuccess,
+  logoutFailure,
+  requestSignup,
+  signupSuccess,
+  signupFailure,
+  signupPasswordFailure,
+} from "../features/authSlicer";
+
+import base64 from "base-64";
+
+// const toast = useToast();
+
+export const signUp = (dispatch, payload) => {
+  payload.preventDefault();
+
+  if (payload.target.password.value === payload.target.confirmPassword.value) {
+    const data = {
+      userName: payload.target.userName.value,
+      email: payload.target.email.value,
+      password: payload.target.password.value,
+      role: payload.target.role.value,
+    };
+
     try {
-        if ( payload.error ) {
-            dispatch({
-                type: actionType.SIGNUP_FAILURE,
-                payload: payload.error,
-            });
-        } else {
-        dispatch( { type: actionType.REQUEST_SIGNUP } );
-        axios.post( `${process.env.REACT_APP_HEROKU_URL}/signup`, payload )
-        .then((res) => {
-            dispatch( { type: actionType.SIGNUP_SUCCESS, payload: res.data } );
-            window.location.href = '/signin'; 
-            })
-        .catch((error) => 
-            dispatch( { type: actionType.SIGNUP_FAILURE, payload: error } ));
-
-    } }
-    catch ( error ) {
-
-        dispatch( { type: actionType.SIGNUP_FAILURE, payload: error } );
-
+      if (payload.error) {
+        dispatch(signupFailure(payload.error));
+        console.log(payload.error);
+      } else {
+        dispatch(requestSignup());
+        axios
+          .post(`${process.env.REACT_APP_HEROKU_URL}/signup`, data)
+          .then((res) => {
+            dispatch(signupSuccess(res.data));
+            // toast({
+            //   title: "Account created.",
+            //   description: "We've created your account for you.",
+            //   status: "success",
+            //   duration: 3000,
+            //   isClosable: true,
+            // });
+            window.location.href = "/signin";
+          })
+          .catch((err) => {
+            dispatch(signupFailure(err.response.data));
+          });
+      }
+    } catch (err) {
+      dispatch(signupFailure(err.response.data));
     }
+  } else {
+    dispatch(signupPasswordFailure());
+  }
 };
 
-export const login = ( dispatch, payload ) => {
-    try {
-        dispatch( { type: actionType.REQUEST_LOGIN } );
-        axios
-        .post(`${process.env.REACT_APP_HEROKU_URL}/signin`, {},
+export const login = (dispatch, payload) => {
+  payload.preventDefault();
+  const user = {
+    userName: payload.target.userName.value,
+    password: payload.target.password.value,
+  };
+  const encoded = base64.encode(`${user.userName}:${user.password}`);
+  try {
+    if (payload.error) {
+      dispatch(loginFailure(payload.error));
+    } else {
+      dispatch(requestLogin());
+      axios
+        .post(
+          `${process.env.REACT_APP_HEROKU_URL}/signin`,
+          {},
           {
             headers: {
-              Authorization: `Basic ${payload}`,
+              Authorization: `Basic ${encoded}`,
             },
           }
         )
         .then((res) => {
-            dispatch( { type: actionType.LOGIN_SUCCESS, payload: res.data } );
-            localStorage.setItem('token', res.data.token);
-            localStorage.setItem('currentUser', JSON.stringify(res.data.user));
-            window.location.href = '/post'
-      })
-        .catch((error) => 
-        dispatch( { type: actionType.LOGIN_FAILURE, payload: error } )
-      );
-        
-    } catch (error) {
-        dispatch( { type: actionType.LOGIN_FAILURE, payload: error } )
+          dispatch(loginSuccess(res.data));
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("currentUser", JSON.stringify(res.data.user));
+          localStorage.setItem("role", res.data.user.role);
+          localStorage.setItem("username", res.data.user.username);
+          localStorage.setItem("userId", res.data.user.id);
+        })
+        .catch((err) => {
+          dispatch(loginFailure(err.response.data));
+        });
     }
+  } catch (err) {
+    dispatch(loginFailure(err.response.data));
+  }
 };
 
-export const logout = ( dispatch ) => {
-    try {
-        dispatch( { type: actionType.LOGOUT_SUCCESS } );
-        localStorage.removeItem('token');
-        localStorage.removeItem('currentUser');
-    } catch (error) {
-        dispatch( { type: actionType.LOGOUT_FAILURE, payload: error } )
-    }
+export const logout = (dispatch) => {
+  try {
+    dispatch(logoutSuccess());
+    localStorage.removeItem("token");
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("role");
+    localStorage.removeItem("username");
+    localStorage.removeItem("userId");
+  } catch (error) {
+    dispatch(logoutFailure(error));
+  }
 };

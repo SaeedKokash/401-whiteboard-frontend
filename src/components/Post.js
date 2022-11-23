@@ -3,9 +3,6 @@ import AddPostForm from "./Add-post-form";
 import AddCommentForm from "./Add-comment-form";
 import EditModal from "./EditModal";
 
-import { usePost } from "../context/PostContext";
-import { useAuth } from "../context/AuthContext";
-
 import { FaTrash } from 'react-icons/fa';
 import {
   VStack,
@@ -24,15 +21,21 @@ import {
   Image,
 } from "@chakra-ui/react";
 
-function Post() {
-  const { posts, getAllPosts, handlePostDelete, handleCommentDelete } = usePost();
-  const { userData } = useAuth();
+import { getAllPosts, handlePostDelete, handleCommentDelete } from "../actions/postActions";
+import { useDispatch, useSelector } from "react-redux"; 
 
-  const userName = userData.user.username.charAt(0).toUpperCase() + userData.user.username.slice(1);
+function Post() {
+
+  const dispatch = useDispatch();
+
+  const posts = useSelector(state => state.post.posts);
+  const { user } = useSelector(state => state.auth);
+
+  const userName = user.username.charAt(0).toUpperCase() + user.username.slice(1);
 
   useEffect(() => {
-    getAllPosts();
-  }, []);
+    getAllPosts(dispatch);
+  }, [posts]);
 
   return (
     <Flex direction="column" justify="center" alignItems="center">
@@ -101,15 +104,15 @@ function Post() {
                     </Box>
   
                     <Box m="5">
-                      {userData.user.role === "admin" || userData.user.userId === value.userID ? (
+                      {user.role === "admin" || user.userId === value.userID ? (
                         <HStack justify="center" divider={<StackDivider borderColor="gray.200" />}>
-                          <EditModal post={value} getAllPosts={getAllPosts} />
-                          <Button leftIcon={<FaTrash />} variant="warning" type="submit" onClick={() => handlePostDelete(value.id)}>Delete Post</Button>
+                          <EditModal post={value} />
+                          <Button leftIcon={<FaTrash />} variant="warning" type="submit" onClick={() => handlePostDelete(value.id, dispatch)}>Delete Post</Button>
                         </HStack>
                       ) : null}
                     </Box>
 
-                    <AddCommentForm postID={value.id} getAllPosts={getAllPosts} />
+                    <AddCommentForm postID={value.id} />
 
                     <Box key={idx} p="2" m="2" borderWidth="1px" borderRadius="lg" overflow="hidden" w="100%" boxShadow="md">
                         {value.Comments.length > 0 ? (
@@ -121,11 +124,11 @@ function Post() {
                                   >{item.creator.charAt(0).toUpperCase() + item.creator.slice(1)}</Text>
                                 <Text>{item.comment}</Text>
                                 <Spacer/>
-                                {userData.user.role === "admin" || userData.user.userId === item.userID ? (
+                                {user.role === "admin" || user.userId === item.userID ? (
                                   <IconButton 
                                   icon={<FaTrash />}
                                   isRound='true'
-                                  onClick={() => handleCommentDelete(item.id)}
+                                  onClick={() => handleCommentDelete(item.id, dispatch)}
                                   boxShadow="md"
                                   variant="warning"
                                     />

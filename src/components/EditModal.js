@@ -1,7 +1,6 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 import axios from "axios";
-import { useAuth } from '../context/AuthContext';
 
 import { FaEdit } from "react-icons/fa";
 import {
@@ -22,10 +21,15 @@ import {
   useToast,
 } from '@chakra-ui/react'
 
+import { useSelector } from "react-redux";
+// import { useDispatch } from "react-redux";
+// import { getAllPosts } from "../actions/postActions";
+
 
 function EditModal(props) {
-
-    const { userData } = useAuth();
+  
+    const { user } = useSelector(state => state.auth);
+    // const dispatch = useDispatch();
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const toast = useToast();
@@ -35,17 +39,17 @@ function EditModal(props) {
         const updatedPost = {
           postTitle: e.target.editTitle.value,
           postContent: e.target.editContent.value,
-          userID: userData.user.userId,
-          creator: userData.user.username
+          userID: user.userId,
+          creator: user.username
         };
 
         await axios.put(`${process.env.REACT_APP_HEROKU_URL}/post/${id}`, updatedPost, {
             headers: {
-              Authorization: `Bearer ${userData.user.token}`,
+              Authorization: `Bearer ${user.token}`,
             },
           }
         );
-        props.getAllPosts();
+        // getAllPosts(dispatch);
         onClose();
         toast({
           title: 'Post has been Edited successfully!',

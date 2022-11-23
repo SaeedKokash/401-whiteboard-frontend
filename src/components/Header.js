@@ -2,10 +2,14 @@ import React from "react";
 import { IconButton, useColorMode, VStack, HStack, Heading, Button, Spacer, Flex } from "@chakra-ui/react";
 import { BsSun, BsMoon } from "react-icons/bs";
 
-import { useAuth } from "../context/AuthContext";
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from "../actions/authActions";
 
 export default function Header() {
-  const { userData, handleLogout } = useAuth();
+
+  const dispatch = useDispatch();
+  const isAuth = useSelector(state => state.auth.isAuth);
+  const user = useSelector(state => state.auth.user);
 
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -25,7 +29,7 @@ export default function Header() {
 
         <Spacer/>
         
-      {userData.isAuth ? (
+      {isAuth ? (
         <VStack alignItems="center" alignSelf="flex-end">
 
           <Heading
@@ -35,10 +39,10 @@ export default function Header() {
             // bgGradient="linear(to-r, purple.500, purple.300, blue.500)"
             // bgClip="text"
           >
-            Welcome {userData.user.username.charAt(0).toUpperCase() + userData.user.username.slice(1)}
+            Welcome {user.username.charAt(0).toUpperCase() + user.username.slice(1)}
           </Heading>
 
-          <Button boxShadow="lg" onClick={handleLogout}>Logout</Button>
+          <Button boxShadow="lg" onClick={() => logout(dispatch)}>Logout</Button>
         </VStack>
       ) : null}
       

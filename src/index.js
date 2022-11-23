@@ -4,8 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-import AuthContextProvider from "./context/AuthContext";
-import PostContextProvider from "./context/PostContext";
+
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 
 import theme from "./theme";
@@ -22,11 +21,7 @@ root.render(
     <ChakraProvider theme={ myTheme }>
       <ColorModeScript initialColorMode={theme.config.initialColorMode}  />
         <Provider store={store}>
-          <AuthContextProvider>
-            <PostContextProvider>
               <App />
-            </PostContextProvider>
-          </AuthContextProvider>
         </Provider>
     </ChakraProvider>
   </React.StrictMode>

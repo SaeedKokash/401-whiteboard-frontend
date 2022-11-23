@@ -7,12 +7,16 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
-import { useAuth } from './context/AuthContext';
+// import { useAuth } from './context/AuthContext';
+
+import { useSelector } from 'react-redux';
 
 
 function App() {
 
-  const { userData } = useAuth();
+  // const { userData } = useAuth();
+
+  const isAuth = useSelector(state => state.auth.isAuth);
 
   return (
     <BrowserRouter>
@@ -20,10 +24,10 @@ function App() {
       <Header />
 
       <Routes>
-        <Route exact path="/" element={userData.isAuth ?       <Post/> : <Signin />}></Route>
-        <Route exact path="/signin" element={userData.isAuth ? <Post/> : <Signin />}></Route>
-        <Route exact path="/signup" element={userData.isAuth ? <Post/> : <Signup />}></Route>
-        <Route exact path="/post" element={userData.isAuth ?   <Post/> : <Signin />}></Route>
+        <Route exact path="/" element={isAuth ?       <Post/> : <Signin />}></Route>
+        <Route exact path="/signin" element={isAuth ? <Post/> : <Signin />}></Route>
+        <Route exact path="/signup" element={isAuth ? <Post/> : <Signup />}></Route>
+        <Route exact path="/post" element={isAuth ?   <Post/> : <Signin />}></Route>
       </Routes>
 
       <Footer/>
