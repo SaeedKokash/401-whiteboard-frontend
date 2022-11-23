@@ -2,8 +2,6 @@ import axios from "axios";
 import React from "react";
 import Form from "react-bootstrap/Form";
 
-import { useAuth } from "../context/AuthContext";
-
 import {
   Button,
   FormControl,
@@ -13,14 +11,21 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 
+import { useSelector } from "react-redux";
+// import { useDispatch } from "react-redux";
+
+// import { getAllPosts } from "../actions/postActions";
+
 function AddCommentForm(props) {
-  const { userData } = useAuth();
+
+  const { user } = useSelector(state => state.auth);
+  // const dispatch = useDispatch();
 
   const toast = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userID = userData.user.userId;
+    const userID = user.userId;
     const newComment = {
       comment: e.target.comment.value,
     };
@@ -30,10 +35,10 @@ function AddCommentForm(props) {
         newComment
       )
       .then(() => {
-        props.getAllPosts();
+        // getAllPosts(dispatch);
         e.target.comment.value = "";
         toast({
-          title: 'Comment has been deleted successfully!',
+          title: 'Comment has been added successfully!',
           status: 'success',
           duration: 3000,
           isClosable: true,

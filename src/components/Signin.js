@@ -1,7 +1,6 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
 
-import { useAuth } from "../context/AuthContext";
 import {
   VStack,
   Text,
@@ -16,11 +15,15 @@ import {
   Flex,
 } from "@chakra-ui/react";
 
+import { useSelector, useDispatch } from 'react-redux';
+import { login } from "../actions/authActions";
+
 export default function Signin() {
-  const { userData, handleSignin } = useAuth();
+
+  const dispatch = useDispatch();
+  const error = useSelector(state => state.auth.error);
 
   return (
-    // creating a flex container
     <Flex
       direction={{ base: "column", md: "row" }}
       justify="center"
@@ -44,7 +47,7 @@ export default function Signin() {
     >
       <Heading>Sign In</Heading>
 
-      <Form onSubmit={handleSignin} >
+      <Form onSubmit={(e) => login( dispatch, e)} >
         <FormControl pb="2em" borderColor="blue.500" isRequired>
           <FormLabel requiredIndicator>Username</FormLabel>
           <Input type="text" placeholder="username" id="userName" autoComplete="userName" />
@@ -55,13 +58,20 @@ export default function Signin() {
           <Input type="password" placeholder="password" id="password" autoComplete="current-password" />
         </FormControl>
 
-        {userData.isNotLogged && (
+        {/* {isNotLogged && (
           <Alert status='error' variant='left-accent' mb="1em">
             <AlertIcon />
             You Are Not Authorized
           </Alert>  
-        )}
+        )} */}
 
+        {error && (
+          <Alert status='error' variant='left-accent' mb="1em">
+            <AlertIcon />
+            {error}
+          </Alert>
+        )}
+        
         <Button colorScheme="blue" type="submit" mb="1rem">
           Sign In
         </Button>

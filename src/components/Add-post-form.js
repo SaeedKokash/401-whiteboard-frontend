@@ -1,8 +1,6 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
 
-import { usePost } from "../context/PostContext";
-
 import {
   Button,
   VStack,
@@ -13,8 +11,12 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 
+import { handleAddPost } from "../actions/postActions";
+import { useDispatch } from "react-redux"; 
+
 function AddPostForm() {
-  const { handleSubmit } = usePost();
+
+  const dispatch = useDispatch();
 
   return (
     <VStack
@@ -34,7 +36,7 @@ function AddPostForm() {
         Share your joke with us!
       </Heading>
 
-      <Form onSubmit={handleSubmit} >
+      <Form onSubmit={(e) => handleAddPost(e, dispatch)} >
         <FormControl pb="2em" borderColor="blue.500" isRequired>
           <FormLabel requiredIndicator>Post Title</FormLabel>
           <Input type="text" placeholder="Enter Title" id="title" />

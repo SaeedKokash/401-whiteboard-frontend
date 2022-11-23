@@ -1,8 +1,6 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
 
-import { useAuth } from '../context/AuthContext';
-
 import {
   VStack,
   Text,
@@ -19,9 +17,15 @@ import {
   Flex,
 } from "@chakra-ui/react";
 
+import { useSelector, useDispatch } from 'react-redux';
+import { signUp } from "../actions/authActions";
+
+
 export default function Signup() {
 
-  const { userData, handleSignup } = useAuth();
+  const error = useSelector(state => state.auth.error);
+
+  const dispatch = useDispatch();
 
   return (
     <Flex
@@ -47,7 +51,7 @@ export default function Signup() {
 
         <Heading>Sign Up</Heading>
 
-        <Form onSubmit={handleSignup}>
+        <Form onSubmit={(e) => signUp( dispatch, e)}>
 
             <FormControl pb="2em" borderColor="blue.500" isRequired>
             <FormLabel>Username</FormLabel>
@@ -79,10 +83,10 @@ export default function Signup() {
               </Select>
             </FormControl>
 
-            { userData.isPassword &&
+            { error &&
               <Alert status='error' variant='left-accent' mb="1em">
-                <AlertIcon />
-                The password entered does not match! Please try again.
+                <AlertIcon /> 
+                {error}
               </Alert>}
 
             <Button colorScheme="blue" type="submit" mb="1rem">
